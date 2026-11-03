@@ -1,0 +1,57 @@
+---
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '../styles/global.css';
+import { empresa, servicios } from '../data/empresa';
+
+interface Props { titulo: string; descripcion: string }
+const { titulo, descripcion } = Astro.props;
+const canonica = new URL(Astro.url.pathname, Astro.site);
+
+// Datos estructurados para el SEO local (Google Maps y resultados "cerca de mí").
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'HVACBusiness',
+  name: empresa.razonSocial,
+  url: empresa.sitio,
+  telephone: empresa.telefonoE164,
+  email: empresa.correo,
+  taxID: empresa.nit,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: empresa.direccion,
+    addressLocality: empresa.ciudad,
+    addressRegion: empresa.departamento,
+    addressCountry: 'CO',
+  },
+  areaServed: { '@type': 'City', name: empresa.ciudad },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Servicios',
+    itemListElement: servicios.map((s) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s.nombre } })),
+  },
+};
+---
+<!doctype html>
+<html lang="es-CO">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    <link rel="canonical" href={canonica} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#3e4096" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:url" content={canonica} />
+    <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

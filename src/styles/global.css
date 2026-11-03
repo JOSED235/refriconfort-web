@@ -1,0 +1,109 @@
+/* Sistema visual: ver DESIGN.md. Azules del logo + etiqueta amarilla de servicio. */
+:root {
+  /* Degradado del logo: cian → azul → índigo */
+  --cian: #0b9bdf;
+  --azul-medio: #1981cb;
+  --azul: #2a66b4;
+  --indigo: #3e4096;
+  --noche: #161a3a;
+  --degradado-marca: linear-gradient(135deg, var(--cian) 0%, var(--azul) 45%, var(--indigo) 100%);
+
+  --fondo: #f2f7fb;
+  --superficie: #ffffff;
+  --linea: #cfdbe8;
+  --tinta: #1c2340;
+  --tinta-2: #4a5470;
+  --cielo-claro: #7fd0f5;
+  --etiqueta: #fadc7d;
+
+  --f-voz: 'Archivo Variable', 'Arial Narrow', sans-serif;
+  --f-dato: 'IBM Plex Mono', ui-monospace, monospace;
+
+  /* Escala 1.2 (360px) a 1.333 (1440px), base 17-18px */
+  --paso-m1: 0.875rem;
+  --paso-0: clamp(1.063rem, 1.042rem + 0.093vw, 1.125rem);
+  --paso-1: clamp(1.275rem, 1.2rem + 0.333vw, 1.5rem);
+  --paso-2: clamp(1.53rem, 1.374rem + 0.695vw, 1.999rem);
+  --paso-3: clamp(1.836rem, 1.56rem + 1.228vw, 2.665rem);
+  --paso-4: clamp(2.203rem, 1.754rem + 1.998vw, 3.552rem);
+  --paso-5: clamp(2.644rem, 1.947rem + 3.098vw, 4.735rem);
+
+  --u: 0.375rem;
+  --e-1: calc(var(--u) * 1);
+  --e-2: calc(var(--u) * 2);
+  --e-3: calc(var(--u) * 3);
+  --e-5: calc(var(--u) * 5);
+  --e-8: calc(var(--u) * 8);
+  --e-13: calc(var(--u) * 13);
+  --e-21: calc(var(--u) * 21);
+
+  --radio: 4px;
+  --sombra-etiqueta: 5px 6px 0 var(--noche);
+  --sombra-foto: 0 18px 40px -18px rgb(22 26 58 / 0.45);
+  --curva: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --curva-rebote: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ancho: 74rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 5.5rem; }
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--tinta);
+  font-family: var(--f-voz);
+  font-size: var(--paso-0);
+  line-height: 1.6;
+  overflow-x: clip;
+}
+img, svg { display: block; max-width: 100%; height: auto; }
+a { color: var(--azul); text-underline-offset: 0.2em; }
+h1, h2, h3 {
+  font-stretch: 72%;
+  font-weight: 780;
+  line-height: 1.05;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+  margin: 0;
+  text-wrap: balance;
+}
+p { margin: 0; text-wrap: pretty; }
+:focus-visible { outline: 3px solid var(--cian); outline-offset: 3px; }
+
+.contenedor { width: min(100% - 2 * var(--e-3), var(--ancho)); margin-inline: auto; }
+.dato { font-family: var(--f-dato); font-size: var(--paso-m1); letter-spacing: 0.02em; }
+
+.boton {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--e-1);
+  min-height: 48px; padding: var(--e-2) var(--e-3);
+  font: 700 var(--paso-0) / 1 var(--f-voz); font-stretch: 85%; text-transform: uppercase; letter-spacing: 0.03em;
+  text-decoration: none; border: 2px solid transparent; border-radius: var(--radio); cursor: pointer;
+  transition: transform 180ms var(--curva), background-color 180ms var(--curva), box-shadow 180ms var(--curva);
+}
+.boton:hover { transform: translateY(-2px); }
+.boton:active { transform: translateY(0); }
+.boton--marca { background: var(--indigo); color: #fff; box-shadow: 0 6px 0 -2px var(--noche); }
+.boton--marca:hover { background: var(--azul); }
+.boton--sol { background: var(--etiqueta); color: var(--noche); box-shadow: 0 6px 0 -2px var(--noche); }
+.boton--sol:hover { background: #ffe79c; }
+.boton--claro { background: transparent; color: #fff; border-color: #fff; }
+.boton--claro:hover { background: rgb(255 255 255 / 0.12); }
+.boton svg { transition: transform 180ms var(--curva); }
+.boton:hover svg { transform: translateX(3px); }
+
+/* Aparición al hacer scroll: solo si hay JS (clase en <html>) y movimiento permitido */
+.js [data-revelar] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 600ms var(--curva), transform 600ms var(--curva);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+.js [data-revelar='izquierda'] { transform: translateX(-32px); }
+.js [data-revelar='escala'] { transform: scale(0.92); }
+.js [data-revelar].visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  html { scroll-behavior: auto; }
+  .js [data-revelar] { opacity: 1; transform: none; }
+}

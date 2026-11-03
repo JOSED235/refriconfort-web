@@ -1,0 +1,462 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import logo from '../assets/logo.webp';
+import portada from '../assets/img/portada-condensadores.jpg';
+import { empresa, servicios, equipos, preguntas } from '../data/empresa';
+
+const fotos = import.meta.glob<{ default: ImageMetadata }>('../assets/img/*.jpg', { eager: true });
+const foto = (nombre: string) => fotos[`../assets/img/${nombre}`].default;
+
+const tel = `tel:${empresa.telefonoE164}`;
+const wa = `https://wa.me/${empresa.whatsapp}`;
+const mapa = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${empresa.direccion}, ${empresa.ciudad}, ${empresa.departamento}`)}`;
+const flecha = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+---
+<Base
+  titulo="Aire acondicionado en Cali: instalación, mantenimiento y reparación | Refriconfort Cool"
+  descripcion={`Instalación, mantenimiento y reparación de aires acondicionados y refrigeración en Cali. Ductería y filtros. Cotiza por WhatsApp al ${empresa.telefono}.`}
+>
+  <a class="saltar boton boton--marca" href="#contenido">Saltar al contenido</a>
+
+  <div class="franja">
+    <div class="contenedor franja__fila dato">
+      <a href={mapa} rel="noopener">{empresa.direccion} · {empresa.ciudad}, {empresa.departamento}</a>
+      <span class="franja__acciones">
+        <a href={tel}>Tel. {empresa.telefono}</a>
+        <a href={wa} rel="noopener">WhatsApp</a>
+      </span>
+    </div>
+  </div>
+
+  <header class="cabecera">
+    <div class="contenedor cabecera__fila">
+      <a class="marca" href="/">
+        <Image src={logo} alt="Refriconfort Cool S.A.S., inicio" width={180} densities={[1, 2]} loading="eager" />
+      </a>
+      <nav aria-label="Principal">
+        <ul class="menu">
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#equipos">Equipos</a></li>
+          <li><a href="#mantenimiento">Mantenimiento</a></li>
+          <li><a href="#preguntas">Preguntas</a></li>
+          <li><a class="boton boton--marca menu__cotizar" href="#cotizar">Cotizar</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="portada" aria-labelledby="titulo-portada">
+      <Image class="portada__foto" src={portada} alt="" widths={[800, 1200, 1600]} sizes="100vw" loading="eager" fetchpriority="high" />
+      <svg class="aire" viewBox="0 0 1200 400" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M-50 60 C 200 10, 400 110, 650 60 S 1050 10, 1250 60" />
+        <path d="M-50 140 C 220 90, 420 190, 670 140 S 1070 90, 1250 140" />
+        <path d="M-50 220 C 180 170, 380 270, 630 220 S 1030 170, 1250 220" />
+        <path d="M-50 300 C 240 250, 440 350, 690 300 S 1090 250, 1250 300" />
+      </svg>
+
+      <div class="contenedor portada__rejilla">
+        <div class="portada__texto">
+          <p class="dato portada__ubicacion">Cali · Valle del Cauca</p>
+          <h1 id="titulo-portada">Aire acondicionado y refrigeración en Cali</h1>
+          <p class="portada__bajada">
+            Instalamos, reparamos y mantenemos equipos en casas, oficinas y locales.
+            También diseñamos y fabricamos ductería.
+          </p>
+
+          <div class="termostato" role="img" aria-label="Afuera en Cali 32 grados; adentro, con el aire encendido, 22 grados">
+            <div><span class="dato">Afuera</span><strong data-temp-afuera>32°</strong></div>
+            <svg class="termostato__flecha" width="40" height="16" viewBox="0 0 40 16" aria-hidden="true"><path d="M0 8h34M28 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>
+            <div><span class="dato">Adentro</span><strong class="termostato__frio" data-temp-adentro>22°</strong></div>
+          </div>
+
+          <div class="portada__botones">
+            <a class="boton boton--sol" href="#cotizar">Pedir cotización <Fragment set:html={flecha} /></a>
+            <a class="boton boton--claro" href={tel}>Llamar {empresa.telefono}</a>
+          </div>
+        </div>
+
+        <aside class="etiqueta" aria-labelledby="titulo-etiqueta" data-dias={empresa.mantenimientoDias}>
+          <p class="etiqueta__cabeza dato"><span>Etiqueta de servicio</span><span aria-hidden="true">N.º 0001</span></p>
+          <h2 id="titulo-etiqueta" class="etiqueta__titulo">Próximo mantenimiento</h2>
+          <dl class="etiqueta__campos">
+            <div><dt class="dato">Si lo haces hoy</dt><dd class="dato" data-hoy>—</dd></div>
+            <div><dt class="dato">El siguiente</dt><dd class="dato etiqueta__fecha" data-proximo>en {empresa.mantenimientoDias} días</dd></div>
+          </dl>
+          <p class="etiqueta__nota">Recomendamos mantenimiento preventivo <strong>cada dos meses</strong>.</p>
+          <a class="boton boton--marca etiqueta__boton" href="#cotizar" data-servicio="Mantenimiento preventivo">Agendar mantenimiento</a>
+        </aside>
+      </div>
+    </section>
+
+    <section id="servicios" class="seccion contenedor" aria-labelledby="titulo-servicios">
+      <div class="seccion__cabeza" data-revelar>
+        <h2 id="titulo-servicios" class="seccion__titulo">Servicios</h2>
+        <p class="seccion__bajada">Del diseño a la reparación, en hogar y en comercio.</p>
+      </div>
+      <ol class="servicios">
+        {servicios.map((s, i) => (
+          <li class="servicio" data-revelar style={`--i:${i % 3}`}>
+            <div class="servicio__foto">
+              <Image src={foto(s.img)} alt="" widths={[400, 700]} sizes="(min-width: 60rem) 24rem, (min-width: 40rem) 50vw, 100vw" />
+              <span class="dato servicio__codigo">{s.codigo}</span>
+            </div>
+            <h3 class="servicio__nombre">{s.nombre}</h3>
+            <p class="servicio__detalle">{s.detalle}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section id="equipos" class="equipos" aria-labelledby="titulo-equipos">
+      <div class="contenedor">
+        <div class="seccion__cabeza" data-revelar>
+          <h2 id="titulo-equipos" class="seccion__titulo">Equipos que atendemos</h2>
+          <p class="seccion__bajada">Residenciales, comerciales e industriales.</p>
+        </div>
+        <ul class="equipos__lista">
+          {equipos.map((e, i) => (
+            <li class="equipo" data-revelar="escala" style={`--i:${i % 4}`}>
+              <Image src={foto(e.img)} alt={`Equipo ${e.nombre}`} widths={[240, 400]} sizes="(min-width: 60rem) 16rem, 45vw" />
+              <span class="dato equipo__nombre">{e.nombre}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section id="mantenimiento" class="frio" aria-labelledby="titulo-mant">
+      <div class="contenedor frio__rejilla">
+        <div class="frio__cabeza" data-revelar="izquierda">
+          <svg class="ventilador" viewBox="0 0 100 100" aria-hidden="true">
+            <circle cx="50" cy="50" r="47" fill="none" stroke="currentColor" stroke-width="3" />
+            <g class="ventilador__aspas">
+              <path d="M50 50 C 40 30, 45 12, 58 8 C 66 20, 62 38, 50 50Z" />
+              <path d="M50 50 C 40 30, 45 12, 58 8 C 66 20, 62 38, 50 50Z" transform="rotate(120 50 50)" />
+              <path d="M50 50 C 40 30, 45 12, 58 8 C 66 20, 62 38, 50 50Z" transform="rotate(240 50 50)" />
+            </g>
+            <circle cx="50" cy="50" r="7" />
+          </svg>
+          <h2 id="titulo-mant" class="seccion__titulo">Por qué cada dos meses</h2>
+        </div>
+        <ul class="frio__puntos">
+          <li data-revelar style="--i:0"><span class="dato">Filtros</span><p>Retienen polvo fino y alérgenos. Sucios, dejan pasar aire contaminado y obligan al equipo a trabajar de más.</p></li>
+          <li data-revelar style="--i:1"><span class="dato">Consumo</span><p>Un equipo limpio enfría más rápido y gasta menos energía. Uno de 10 años sin cuidado puede ser hasta 60 % menos eficiente.</p></li>
+          <li data-revelar style="--i:2"><span class="dato">Fallas</span><p>Goteos, congelamiento y ruidos se detectan antes de que obliguen a una reparación costosa.</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="cotizar" class="seccion contenedor cotizar" aria-labelledby="titulo-cotizar">
+      <div class="cotizar__intro" data-revelar="izquierda">
+        <h2 id="titulo-cotizar" class="seccion__titulo">Pide tu cotización</h2>
+        <p>Llena lo que sepas y te llega como mensaje de WhatsApp. Te respondemos por ahí.</p>
+        <p class="dato cotizar__alterno">
+          ¿Prefieres otro medio?<br /><a href={tel}>{empresa.telefono}</a> · <a href={`mailto:${empresa.correo}`}>{empresa.correo}</a>
+        </p>
+      </div>
+
+      <form class="formulario" id="formulario" data-whatsapp={empresa.whatsapp} novalidate data-revelar>
+        <label class="campo"><span>Nombre *</span><input name="nombre" autocomplete="name" required /></label>
+        <label class="campo"><span>Teléfono *</span><input name="telefono" type="tel" autocomplete="tel" inputmode="tel" required /></label>
+        <label class="campo"><span>Barrio o ciudad</span><input name="barrio" autocomplete="address-level2" /></label>
+        <fieldset class="campo campo--opciones">
+          <legend>Es para</legend>
+          <label><input type="radio" name="tipo" value="Hogar" checked /> Hogar</label>
+          <label><input type="radio" name="tipo" value="Negocio" /> Negocio</label>
+        </fieldset>
+        <label class="campo">
+          <span>Servicio</span>
+          <select name="servicio">
+            {servicios.map((s) => <option>{s.nombre}</option>)}
+            <option>Otro</option>
+          </select>
+        </label>
+        <label class="campo">
+          <span>Equipo</span>
+          <select name="equipo">
+            <option value="">No sé / varios</option>
+            {equipos.map((e) => <option>{e.nombre}</option>)}
+          </select>
+        </label>
+        <label class="campo campo--ancho"><span>Cuéntanos qué necesitas</span><textarea name="detalle" rows="4" placeholder="Ej.: 2 mini split de 12.000 BTU, uno gotea."></textarea></label>
+        <p class="formulario__error" role="alert" hidden>Escribe tu nombre y un teléfono para poder contactarte.</p>
+        <button class="boton boton--marca campo--ancho" type="submit">Enviar por WhatsApp <Fragment set:html={flecha} /></button>
+        <p class="formulario__aviso campo--ancho">Usamos tus datos solo para responder esta solicitud.</p>
+      </form>
+    </section>
+
+    <section id="preguntas" class="seccion contenedor" aria-labelledby="titulo-preguntas">
+      <h2 id="titulo-preguntas" class="seccion__titulo" data-revelar>Preguntas frecuentes</h2>
+      <div class="preguntas">
+        {preguntas.map((q, i) => (
+          <details data-revelar style={`--i:${i}`}>
+            <summary>{q.p}</summary>
+            <p>{q.r}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor pie__rejilla">
+      <div>
+        <Image class="pie__logo" src={logo} alt="Refriconfort Cool S.A.S." width={220} densities={[1, 2]} />
+        <p class="dato">{empresa.razonSocial} · NIT {empresa.nit}</p>
+      </div>
+      <address class="dato pie__datos">
+        <a href={mapa} rel="noopener">{empresa.direccion}, {empresa.ciudad}</a><br />
+        <a href={tel}>{empresa.telefono}</a><br />
+        <a href={`mailto:${empresa.correo}`}>{empresa.correo}</a>
+      </address>
+    </div>
+  </footer>
+
+  <a class="wa-flotante" href={wa} rel="noopener" aria-label="Escríbenos por WhatsApp">
+    <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.7 11.7 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
+  </a>
+
+  <script>
+    import { enlaceWhatsApp, proximoMantenimiento } from '../lib/mensaje.ts';
+
+    const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Etiqueta: fechas de hoy y del próximo mantenimiento
+    const fmt = new Intl.DateTimeFormat('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    const hoy = new Date();
+    const dias = Number(document.querySelector<HTMLElement>('.etiqueta')!.dataset.dias);
+    document.querySelector('[data-hoy]')!.textContent = fmt.format(hoy);
+    document.querySelector('[data-proximo]')!.textContent = fmt.format(proximoMantenimiento(hoy, dias));
+
+    // Termostato: baja de 32° a 22° como si el aire acabara de encenderse
+    const adentro = document.querySelector<HTMLElement>('[data-temp-adentro]')!;
+    if (!quieto) {
+      let t = 32;
+      adentro.textContent = `${t}°`;
+      const bajar = setInterval(() => {
+        adentro.textContent = `${--t}°`;
+        if (t <= 22) clearInterval(bajar);
+      }, 180);
+    }
+
+    // Aparición al hacer scroll
+    const obs = new IntersectionObserver((entradas) => {
+      for (const e of entradas) if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    }, { rootMargin: '0px 0px -10% 0px' });
+    document.querySelectorAll('[data-revelar]').forEach((el) => obs.observe(el));
+
+    // Formulario → WhatsApp
+    const form = document.querySelector<HTMLFormElement>('#formulario')!;
+    const error = form.querySelector<HTMLElement>('.formulario__error')!;
+    document.querySelectorAll<HTMLAnchorElement>('[data-servicio]').forEach((a) =>
+      a.addEventListener('click', () => { form.servicio.value = a.dataset.servicio; }),
+    );
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const d = new FormData(form);
+      const v = (k: string) => String(d.get(k) ?? '');
+      if (!v('nombre').trim() || v('telefono').replace(/\D/g, '').length < 7) {
+        error.hidden = false;
+        (v('nombre').trim() ? form.telefono : form.nombre).focus();
+        return;
+      }
+      error.hidden = true;
+      window.open(enlaceWhatsApp(form.dataset.whatsapp!, {
+        nombre: v('nombre'), telefono: v('telefono'), barrio: v('barrio'), tipo: v('tipo'),
+        servicio: v('servicio'), equipo: v('equipo'), detalle: v('detalle'),
+      }), '_blank', 'noopener');
+    });
+  </script>
+</Base>
+
+<style>
+  .saltar { position: absolute; left: var(--e-2); top: -100px; z-index: 20; }
+  .saltar:focus { top: var(--e-2); }
+
+  .franja { background: var(--noche); color: #fff; }
+  .franja__fila { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--e-1) var(--e-3); padding-block: var(--e-1); }
+  .franja__acciones { display: flex; gap: var(--e-3); }
+  .franja a { color: var(--cielo-claro); }
+
+  .cabecera { background: var(--superficie); position: sticky; top: 0; z-index: 10; box-shadow: 0 1px 0 var(--linea); }
+  .cabecera::after { content: ''; display: block; height: 4px; background: var(--degradado-marca); }
+  .cabecera__fila { display: flex; align-items: center; justify-content: space-between; gap: var(--e-2); padding-block: var(--e-1); }
+  .marca img { width: clamp(130px, 22vw, 180px); }
+  .menu { list-style: none; display: flex; align-items: center; gap: var(--e-3); margin: 0; padding: 0; }
+  .menu a:not(.boton) {
+    color: var(--tinta); text-decoration: none; font-weight: 650; font-stretch: 85%; text-transform: uppercase;
+    letter-spacing: 0.04em; font-size: var(--paso-m1); padding-block: var(--e-2); display: inline-block;
+    background: linear-gradient(var(--cian), var(--cian)) no-repeat left bottom / 0 3px;
+    transition: background-size 220ms var(--curva), color 220ms var(--curva);
+  }
+  .menu a:not(.boton):hover { color: var(--indigo); background-size: 100% 3px; }
+  .menu__cotizar { min-height: 42px; padding-block: var(--e-1); font-size: var(--paso-m1); }
+  @media (max-width: 48rem) { .menu li:not(:last-child) { display: none; } }
+
+  /* Portada: foto del sitio actual bajo el degradado del logo */
+  .portada { position: relative; isolation: isolate; color: #fff; overflow: hidden; }
+  .portada__foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; animation: acercar 18s var(--curva) both; }
+  .portada::before {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(100deg, rgb(22 26 58 / 0.94) 0%, rgb(62 64 150 / 0.88) 38%, rgb(42 102 180 / 0.55) 70%, rgb(11 155 223 / 0.25) 100%);
+  }
+  @keyframes acercar { from { transform: scale(1.12); } to { transform: scale(1); } }
+
+  /* Corrientes de aire frío que cruzan la portada */
+  .aire { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+  .aire path { fill: none; stroke: var(--cielo-claro); stroke-width: 2; stroke-linecap: round; opacity: 0.35; stroke-dasharray: 120 260; animation: soplar 7s linear infinite; }
+  .aire path:nth-child(2) { animation-duration: 9s; animation-delay: -3s; opacity: 0.25; }
+  .aire path:nth-child(3) { animation-duration: 6s; animation-delay: -1s; }
+  .aire path:nth-child(4) { animation-duration: 10s; animation-delay: -5s; opacity: 0.2; }
+  @keyframes soplar { to { stroke-dashoffset: -760; } }
+
+  .portada__rejilla { display: grid; gap: var(--e-8); align-items: center; padding-block: var(--e-13) var(--e-21); }
+  @media (min-width: 60rem) { .portada__rejilla { grid-template-columns: 1.5fr 1fr; } }
+  .portada__ubicacion { color: var(--cielo-claro); margin-bottom: var(--e-2); animation: entrar 700ms var(--curva) both; }
+  .portada h1 { font-size: var(--paso-5); font-stretch: 62%; font-weight: 820; max-width: 14ch; animation: entrar 700ms 80ms var(--curva) both; }
+  .portada__bajada { font-size: var(--paso-1); line-height: 1.45; max-width: 38ch; margin-top: var(--e-3); color: rgb(255 255 255 / 0.9); animation: entrar 700ms 160ms var(--curva) both; }
+  .portada__botones { display: flex; flex-wrap: wrap; gap: var(--e-2); margin-top: var(--e-5); animation: entrar 700ms 320ms var(--curva) both; }
+  @keyframes entrar { from { opacity: 0; transform: translateY(18px); } }
+
+  /* Termostato: pantalla del control remoto */
+  .termostato {
+    display: inline-flex; align-items: center; gap: var(--e-3); margin-top: var(--e-5);
+    padding: var(--e-2) var(--e-3); border: 1.5px solid rgb(255 255 255 / 0.35); border-radius: var(--radio);
+    background: rgb(22 26 58 / 0.45); animation: entrar 700ms 240ms var(--curva) both;
+  }
+  .termostato div { display: grid; line-height: 1.1; }
+  .termostato span { text-transform: uppercase; color: rgb(255 255 255 / 0.75); }
+  .termostato strong { font-family: var(--f-dato); font-weight: 500; font-size: var(--paso-3); font-variant-numeric: tabular-nums; }
+  .termostato__frio { color: var(--cielo-claro); }
+  .termostato__flecha { color: var(--cielo-claro); }
+
+  /* La etiqueta amarilla que el técnico pega en el equipo después del servicio */
+  .etiqueta {
+    background: var(--etiqueta); color: var(--tinta);
+    border: 2px solid var(--noche); border-radius: var(--radio); box-shadow: var(--sombra-etiqueta);
+    padding: var(--e-3); rotate: -2deg; max-width: 24rem; justify-self: center; width: 100%;
+    position: relative; animation: pegar 900ms 450ms var(--curva-rebote) both;
+  }
+  .etiqueta:hover { rotate: 0deg; transition: rotate 300ms var(--curva-rebote); }
+  @keyframes pegar {
+    from { opacity: 0; transform: translateY(-40px) scale(1.08); rotate: 8deg; box-shadow: 18px 22px 0 rgb(22 26 58 / 0.2); }
+  }
+  .etiqueta::before, .etiqueta::after {
+    content: ''; position: absolute; top: var(--e-2); width: 10px; height: 10px; border-radius: 50%;
+    background: var(--fondo); border: 2px solid var(--noche);
+  }
+  .etiqueta::before { left: var(--e-2); }
+  .etiqueta::after { right: var(--e-2); }
+  .etiqueta__cabeza { display: flex; flex-wrap: wrap; gap: 0 var(--e-2); justify-content: space-between; padding-inline: var(--e-3); text-transform: uppercase; color: var(--tinta-2); }
+  .etiqueta__titulo { font-size: var(--paso-3); margin-top: var(--e-2); }
+  .etiqueta__campos { margin: var(--e-3) 0; display: grid; }
+  .etiqueta__campos div { display: flex; justify-content: space-between; align-items: baseline; gap: var(--e-2); border-top: 1.5px dashed var(--noche); padding-block: var(--e-1); }
+  .etiqueta__campos div:last-child { border-bottom: 1.5px dashed var(--noche); }
+  .etiqueta dt { text-transform: uppercase; color: var(--tinta-2); }
+  .etiqueta dd { margin: 0; font-weight: 500; }
+  .etiqueta__fecha { font-size: var(--paso-1); color: var(--indigo); }
+  .etiqueta__nota { font-size: var(--paso-m1); line-height: 1.5; }
+  .etiqueta__boton { width: 100%; margin-top: var(--e-3); }
+
+  .seccion { padding-block: var(--e-13); }
+  .seccion__cabeza { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--e-1) var(--e-5); margin-bottom: var(--e-5); }
+  .seccion__titulo { font-size: var(--paso-4); color: var(--indigo); }
+  .seccion__titulo::after { content: ''; display: block; width: 3.5rem; height: 5px; margin-top: var(--e-2); background: var(--degradado-marca); border-radius: 3px; }
+  .seccion__bajada { color: var(--tinta-2); font-size: var(--paso-1); }
+
+  /* Servicios con foto */
+  .servicios { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--e-5) var(--e-3); grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); }
+  .servicio__foto { position: relative; overflow: hidden; border-radius: var(--radio); aspect-ratio: 4 / 3; box-shadow: var(--sombra-foto); background: var(--indigo); }
+  .servicio__foto img { width: 100%; height: 100%; object-fit: cover; transition: transform 600ms var(--curva), opacity 400ms; }
+  .servicio__foto::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgb(22 26 58 / 0.55), transparent 55%); }
+  .servicio:hover .servicio__foto img { transform: scale(1.07); opacity: 0.92; }
+  .servicio__codigo { position: absolute; left: var(--e-2); bottom: var(--e-2); z-index: 1; color: #fff; background: var(--indigo); padding: 2px var(--e-1); border-radius: 2px; }
+  .servicio__nombre { font-size: var(--paso-2); margin-top: var(--e-3); color: var(--tinta); }
+  .servicio__detalle { color: var(--tinta-2); margin-top: var(--e-1); }
+
+  /* Equipos: fichas de producto sobre fondo degradado de marca */
+  .equipos { background: var(--degradado-marca); padding-block: var(--e-13); color: #fff; }
+  .equipos .seccion__titulo { color: #fff; }
+  .equipos .seccion__titulo::after { background: var(--etiqueta); }
+  .equipos .seccion__bajada { color: rgb(255 255 255 / 0.85); }
+  .equipos__lista { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--e-3); grid-template-columns: repeat(auto-fill, minmax(min(45%, 14rem), 1fr)); }
+  .equipo {
+    background: #fff; border-radius: var(--radio); padding: var(--e-2); display: grid; gap: var(--e-1);
+    box-shadow: 0 10px 30px -14px rgb(22 26 58 / 0.6); transition: transform 300ms var(--curva-rebote);
+  }
+  .equipo:hover { transform: translateY(-6px) rotate(-1deg); }
+  .equipo img { width: 100%; aspect-ratio: 1; object-fit: contain; mix-blend-mode: multiply; }
+  .equipo__nombre { color: var(--noche); text-transform: uppercase; font-weight: 500; border-top: 1.5px dashed var(--linea); padding-top: var(--e-1); }
+
+  /* Mantenimiento */
+  .frio { background: var(--superficie); padding-block: var(--e-13); }
+  .frio__rejilla { display: grid; gap: var(--e-5); align-items: start; }
+  @media (min-width: 56rem) { .frio__rejilla { grid-template-columns: 1fr 2fr; } }
+  .ventilador { width: 5.5rem; color: var(--azul); fill: var(--cian); margin-bottom: var(--e-3); }
+  .ventilador__aspas { transform-origin: 50px 50px; animation: girar 2.4s linear infinite; }
+  @keyframes girar { to { transform: rotate(360deg); } }
+  .frio__puntos { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--e-3); }
+  .frio__puntos li { display: grid; grid-template-columns: 7rem 1fr; gap: var(--e-2); padding: var(--e-3); border-left: 5px solid var(--cian); background: var(--fondo); border-radius: 0 var(--radio) var(--radio) 0; }
+  .frio__puntos span { text-transform: uppercase; font-weight: 500; color: var(--indigo); }
+  @media (max-width: 30rem) { .frio__puntos li { grid-template-columns: 1fr; } }
+
+  /* Cotizar */
+  .cotizar { display: grid; gap: var(--e-5); }
+  @media (min-width: 56rem) { .cotizar { grid-template-columns: 1fr 1.6fr; } }
+  .cotizar__intro p { max-width: 38ch; }
+  .cotizar__intro .seccion__titulo { margin-bottom: var(--e-3); }
+  .cotizar__alterno { margin-top: var(--e-3); color: var(--tinta-2); }
+  .formulario {
+    display: grid; gap: var(--e-3); grid-template-columns: 1fr;
+    background: var(--superficie); border-top: 6px solid transparent; border-image: var(--degradado-marca) 1;
+    padding: var(--e-5) var(--e-3); box-shadow: var(--sombra-foto);
+  }
+  @media (min-width: 40rem) { .formulario { grid-template-columns: 1fr 1fr; padding-inline: var(--e-5); } }
+  .campo { display: grid; gap: var(--e-1); font-weight: 650; font-size: var(--paso-m1); text-transform: uppercase; letter-spacing: 0.03em; color: var(--indigo); }
+  .campo--ancho { grid-column: 1 / -1; }
+  .campo input, .campo select, .campo textarea {
+    font: 400 var(--paso-0) / 1.4 var(--f-voz); text-transform: none; letter-spacing: 0; color: var(--tinta);
+    min-height: 48px; padding: var(--e-1) var(--e-2); background: var(--fondo);
+    border: 1.5px solid var(--linea); border-radius: var(--radio); transition: border-color 160ms, box-shadow 160ms;
+  }
+  .campo input:focus, .campo select:focus, .campo textarea:focus { border-color: var(--azul); box-shadow: 0 0 0 3px rgb(11 155 223 / 0.25); outline: none; }
+  .campo textarea { resize: vertical; }
+  .campo--opciones { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: var(--e-1) var(--e-3); align-content: start; }
+  .campo--opciones legend { width: 100%; margin-bottom: var(--e-1); padding: 0; }
+  .campo--opciones label { display: inline-flex; align-items: center; gap: var(--e-1); min-height: 44px; text-transform: none; font-weight: 400; font-size: var(--paso-0); letter-spacing: 0; color: var(--tinta); }
+  .campo--opciones input { accent-color: var(--indigo); width: 1.2em; height: 1.2em; }
+  .formulario__error { grid-column: 1 / -1; color: #9b2c2c; font-weight: 600; border-left: 4px solid #9b2c2c; padding-left: var(--e-2); }
+  .formulario__aviso { font-size: var(--paso-m1); color: var(--tinta-2); }
+
+  /* Preguntas */
+  .preguntas { max-width: 52rem; display: grid; gap: var(--e-1); }
+  .preguntas details { background: var(--superficie); border-radius: var(--radio); border: 1px solid var(--linea); padding-inline: var(--e-3); transition: border-color 200ms; }
+  .preguntas details[open] { border-color: var(--azul); }
+  .preguntas summary {
+    cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: var(--e-2);
+    padding-block: var(--e-3); font-weight: 650; font-size: var(--paso-1); line-height: 1.3;
+  }
+  .preguntas summary::-webkit-details-marker { display: none; }
+  .preguntas summary::after { content: '+'; font-family: var(--f-dato); font-size: var(--paso-2); color: var(--azul); transition: rotate 250ms var(--curva); }
+  .preguntas details[open] summary::after { rotate: 45deg; }
+  .preguntas details p { padding-bottom: var(--e-3); color: var(--tinta-2); max-width: 65ch; }
+
+  .pie { background: var(--noche); color: #fff; padding-block: var(--e-8) var(--e-13); border-top: 6px solid transparent; border-image: var(--degradado-marca) 1; }
+  .pie__rejilla { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--e-5); }
+  .pie__logo { width: 220px; margin-bottom: var(--e-2); }
+  .pie__datos { font-style: normal; line-height: 2; }
+  .pie a { color: var(--cielo-claro); }
+
+  /* Botón flotante de WhatsApp: verde de WhatsApp para que se reconozca al instante */
+  .wa-flotante {
+    position: fixed; right: var(--e-3); bottom: var(--e-3); z-index: 15;
+    width: 58px; height: 58px; display: grid; place-items: center; border-radius: 50%;
+    background: #1f8f4e; color: #fff; box-shadow: 0 8px 20px -6px rgb(22 26 58 / 0.6);
+    transition: transform 200ms var(--curva-rebote);
+  }
+  .wa-flotante:hover { transform: scale(1.08); }
+  .wa-flotante::before { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 2px solid #1f8f4e; animation: latido 2.2s var(--curva) infinite; }
+  @keyframes latido { from { transform: scale(1); opacity: 0.8; } to { transform: scale(1.6); opacity: 0; } }
+</style>
