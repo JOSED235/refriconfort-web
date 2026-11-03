@@ -52,6 +52,8 @@ npm run preview  # sirve dist/
 
 ## Nota
 
+- Repositorio privado: https://github.com/JOSED235/refriconfort-web
+
 El código vive en `C:\Users\Fa1097la\dev\refriconfort-web` y no en Google Drive, porque npm falla en Drive con `EBADF: bad file descriptor`.
 
 ## Pendiente
