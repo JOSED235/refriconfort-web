@@ -41,7 +41,7 @@ const ld = {
     <title>{titulo}</title>
     <meta name="description" content={descripcion} />
     <link rel="canonical" href={canonica} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
     <meta name="theme-color" content="#3e4096" />
     <script is:inline>document.documentElement.classList.add('js');</script>
     <meta property="og:type" content="website" />
