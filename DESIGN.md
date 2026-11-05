@@ -44,6 +44,16 @@ Todas se desactivan con `prefers-reduced-motion`.
 | Scroll | `[data-revelar]` con IntersectionObserver; variantes `izquierda` y `escala` y retardo por `--i` | Solo actúa si hay JS (clase `.js` en `<html>`), así el contenido nunca queda oculto |
 | WhatsApp | Latido del botón flotante | — |
 
+## Quiénes somos
+
+- La misión va en una ficha amarilla, como la etiqueta de servicio. Es la segunda y última vez que se usa ese recurso, para que no pierda fuerza.
+- Los cuatro valores van en fichas blancas numeradas (`01`–`04`, en monoespaciada) con borde superior cian, igual que los puntos de mantenimiento.
+
+## Vista previa al compartir
+
+- `public/og.jpg` (1200×630) repite la portada: la foto de condensadores con el degradado, el logo sobre fondo blanco, el titular condensado y una etiqueta amarilla con el WhatsApp.
+- Es lo primero que ve el cliente cuando le llega el enlace por WhatsApp, así que debe verse como la página.
+
 ## Imágenes
 
 - Las fotos vienen del sitio actual del cliente (`src/assets/img/`). Astro las optimiza a WebP con `srcset`.

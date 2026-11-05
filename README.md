@@ -13,6 +13,8 @@ Es estático, está hecho con Astro 7 y su prioridad es el SEO local.
 | No hay forma de cotizar ni de agendar | Formulario que arma el mensaje y lo abre en WhatsApp; etiqueta de "próximo mantenimiento" con un botón para agendar |
 | Los servicios no tienen descripción | Cada servicio tiene foto, código y descripción |
 | Poca visibilidad en Google | Título y descripción con "Cali", datos estructurados `HVACBusiness`, `sitemap.xml`, `robots.txt` e imágenes con texto alternativo |
+| "Quiénes somos" escondido en `/technology/`, con la misión duplicada | Sección "Quiénes somos" en la misma página, con resumen, misión y los cuatro valores |
+| El enlace compartido por WhatsApp no muestra vista previa | Imagen `public/og.jpg` de 1200×630 con metaetiquetas Open Graph y de Twitter |
 
 ## Stack
 
@@ -52,13 +54,24 @@ npm run preview  # sirve dist/
 
 ## Nota
 
-- Repositorio privado: https://github.com/JOSED235/refriconfort-web
+- Repositorio: https://github.com/JOSED235/refriconfort-web
+- Vista previa en GitHub Pages: https://josed235.github.io/refriconfort-web/ (se despliega con cada push a `main`).
 
-El código vive en `C:\Users\Fa1097la\dev\refriconfort-web` y no en Google Drive, porque npm falla en Drive con `EBADF: bad file descriptor`.
+El código vive en `D:\devJose\refriconfort-web` y no en Google Drive, porque npm falla en Drive con `EBADF: bad file descriptor`.
+
+Para compilar en Git Bash con la subruta de Pages hay que usar `MSYS_NO_PATHCONV=1`. Sin esa variable, Git Bash convierte `BASE=/refriconfort-web/` en una ruta de Windows y el build falla:
+
+```bash
+MSYS_NO_PATHCONV=1 SITE=https://josed235.github.io BASE=/refriconfort-web/ npm run build
+```
+
+`public/og.jpg` se generó con una captura de Chrome sin interfaz a partir de un HTML con la foto de portada, el logo y las fuentes del sitio. Si cambia el WhatsApp, hay que regenerarla, porque el número está escrito en la imagen.
 
 ## Pendiente
 
-- Confirmar el teléfono, el WhatsApp y la dirección: en internet aparecen 313 688 3532 / 317 848 1385 y #84-18 / #84-44.
+- Confirmar los datos de contacto con el cliente. Por ahora se toman de su sitio actual: teléfono 313 688 3532 (página de contacto), WhatsApp 317 848 1385 (widget de chat) y dirección Carrera 7C #84-18. Los directorios mencionan la #84-44.
+- Pedir el horario, las redes sociales, los años de experiencia, las marcas con las que trabajan y los testimonios. No se publican hasta tenerlos confirmados.
+- Preguntar si quieren conservar el Meta Pixel de Facebook que tiene su sitio actual.
 - Conseguir fotos de trabajos reales (casi todas las actuales son de stock o de fabricantes) y el logo sin el NIT.
 - Probar el envío del formulario a WhatsApp en un celular.
 - Agregar una página de política de privacidad (Ley 1581 de 2012).
