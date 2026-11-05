@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import logo from '../assets/logo.webp';
 import portada from '../assets/img/portada-condensadores.jpg';
-import { empresa, servicios, equipos, preguntas } from '../data/empresa';
+import { empresa, servicios, equipos, preguntas, nosotros } from '../data/empresa';
 
 const fotos = import.meta.glob<{ default: ImageMetadata }>('../assets/img/*.jpg', { eager: true });
 const foto = (nombre: string) => fotos[`../assets/img/${nombre}`].default;
@@ -21,10 +21,10 @@ const flecha = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="tru
 
   <div class="franja">
     <div class="contenedor franja__fila dato">
-      <a href={mapa} rel="noopener">{empresa.direccion} · {empresa.ciudad}, {empresa.departamento}</a>
+      <a class="franja__dir" href={mapa} rel="noopener">{empresa.direccion} · {empresa.ciudad}, {empresa.departamento}</a>
       <span class="franja__acciones">
         <a href={tel}>Tel. {empresa.telefono}</a>
-        <a href={wa} rel="noopener">WhatsApp</a>
+        <a href={wa} rel="noopener">WhatsApp {empresa.whatsappTexto}</a>
       </span>
     </div>
   </div>
@@ -39,6 +39,7 @@ const flecha = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="tru
           <li><a href="#servicios">Servicios</a></li>
           <li><a href="#equipos">Equipos</a></li>
           <li><a href="#mantenimiento">Mantenimiento</a></li>
+          <li><a href="#nosotros">Nosotros</a></li>
           <li><a href="#preguntas">Preguntas</a></li>
           <li><a class="boton boton--marca menu__cotizar" href="#cotizar">Cotizar</a></li>
         </ul>
@@ -59,7 +60,7 @@ const flecha = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="tru
       <div class="contenedor portada__rejilla">
         <div class="portada__texto">
           <p class="dato portada__ubicacion">Cali · Valle del Cauca</p>
-          <h1 id="titulo-portada">Aire acondicionado y refrigeración en Cali</h1>
+          <h1 id="titulo-portada">Aire acondicionado y&nbsp;refrigeración en Cali</h1>
           <p class="portada__bajada">
             Instalamos, reparamos y mantenemos equipos en casas, oficinas y locales.
             También diseñamos y fabricamos ductería.
@@ -148,12 +149,33 @@ const flecha = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="tru
       </div>
     </section>
 
+    <section id="nosotros" class="seccion contenedor nosotros" aria-labelledby="titulo-nosotros">
+      <div class="nosotros__texto" data-revelar="izquierda">
+        <h2 id="titulo-nosotros" class="seccion__titulo">Quiénes somos</h2>
+        <p class="nosotros__resumen">{nosotros.resumen}</p>
+        <p>{nosotros.equipo}</p>
+        <blockquote class="nosotros__mision">
+          <span class="dato">Nuestra misión</span>
+          <p>{nosotros.mision}</p>
+        </blockquote>
+      </div>
+      <ul class="valores">
+        {nosotros.valores.map((v, i) => (
+          <li class="valor" data-revelar style={`--i:${i}`}>
+            <span class="dato valor__num">0{i + 1}</span>
+            <h3 class="valor__nombre">{v.nombre}</h3>
+            <p>{v.texto}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
     <section id="cotizar" class="seccion contenedor cotizar" aria-labelledby="titulo-cotizar">
       <div class="cotizar__intro" data-revelar="izquierda">
         <h2 id="titulo-cotizar" class="seccion__titulo">Pide tu cotización</h2>
         <p>Llena lo que sepas y te llega como mensaje de WhatsApp. Te respondemos por ahí.</p>
         <p class="dato cotizar__alterno">
-          ¿Prefieres otro medio?<br /><a href={tel}>{empresa.telefono}</a> · <a href={`mailto:${empresa.correo}`}>{empresa.correo}</a>
+          ¿Prefieres otro medio?<br />Tel. <a href={tel}>{empresa.telefono}</a> · WhatsApp <a href={wa} rel="noopener">{empresa.whatsappTexto}</a><br /><a href={`mailto:${empresa.correo}`}>{empresa.correo}</a>
         </p>
       </div>
 
@@ -205,13 +227,27 @@ const flecha = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="tru
       <div>
         <Image class="pie__logo" src={logo} alt="Refriconfort Cool S.A.S." width={220} densities={[1, 2]} />
         <p class="dato">{empresa.razonSocial} · NIT {empresa.nit}</p>
+        <p class="pie__lema">Aire acondicionado, refrigeración y ductería en {empresa.ciudad} y el {empresa.departamento}.</p>
       </div>
+      <nav aria-label="Pie de página">
+        <p class="dato pie__titulo">Secciones</p>
+        <ul class="pie__enlaces">
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#equipos">Equipos</a></li>
+          <li><a href="#nosotros">Quiénes somos</a></li>
+          <li><a href="#preguntas">Preguntas frecuentes</a></li>
+          <li><a href="#cotizar">Cotizar</a></li>
+        </ul>
+      </nav>
       <address class="dato pie__datos">
+        <span class="pie__titulo">Contacto</span><br />
         <a href={mapa} rel="noopener">{empresa.direccion}, {empresa.ciudad}</a><br />
-        <a href={tel}>{empresa.telefono}</a><br />
+        Tel. <a href={tel}>{empresa.telefono}</a><br />
+        WhatsApp <a href={wa} rel="noopener">{empresa.whatsappTexto}</a><br />
         <a href={`mailto:${empresa.correo}`}>{empresa.correo}</a>
       </address>
     </div>
+    <p class="contenedor dato pie__legal">© {new Date().getFullYear()} {empresa.razonSocial}</p>
   </footer>
 
   <a class="wa-flotante" href={wa} rel="noopener" aria-label="Escríbenos por WhatsApp">
@@ -279,6 +315,11 @@ const flecha = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="tru
   .franja__fila { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--e-1) var(--e-3); padding-block: var(--e-1); }
   .franja__acciones { display: flex; gap: var(--e-3); }
   .franja a { color: var(--cielo-claro); }
+  .franja__acciones a { white-space: nowrap; }
+  @media (max-width: 40rem) {
+    .franja__dir { display: none; }
+    .franja__acciones { flex-wrap: wrap; gap: var(--e-1) var(--e-2); }
+  }
 
   .cabecera { background: var(--superficie); position: sticky; top: 0; z-index: 10; box-shadow: 0 1px 0 var(--linea); }
   .cabecera::after { content: ''; display: block; height: 4px; background: var(--degradado-marca); }
@@ -393,7 +434,7 @@ const flecha = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="tru
   /* Mantenimiento */
   .frio { background: var(--superficie); padding-block: var(--e-13); }
   .frio__rejilla { display: grid; gap: var(--e-5); align-items: start; }
-  @media (min-width: 56rem) { .frio__rejilla { grid-template-columns: 1fr 2fr; } }
+  @media (min-width: 56rem) { .frio__rejilla { grid-template-columns: 1fr 2fr; align-items: center; } }
   .ventilador { width: 5.5rem; color: var(--azul); fill: var(--cian); margin-bottom: var(--e-3); }
   .ventilador__aspas { transform-origin: 50px 50px; animation: girar 2.4s linear infinite; }
   @keyframes girar { to { transform: rotate(360deg); } }
@@ -401,6 +442,21 @@ const flecha = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="tru
   .frio__puntos li { display: grid; grid-template-columns: 7rem 1fr; gap: var(--e-2); padding: var(--e-3); border-left: 5px solid var(--cian); background: var(--fondo); border-radius: 0 var(--radio) var(--radio) 0; }
   .frio__puntos span { text-transform: uppercase; font-weight: 500; color: var(--indigo); }
   @media (max-width: 30rem) { .frio__puntos li { grid-template-columns: 1fr; } }
+
+  /* Quiénes somos: valores como fichas numeradas */
+  .nosotros { display: grid; gap: var(--e-8); align-items: center; }
+  @media (min-width: 56rem) { .nosotros { grid-template-columns: 1fr 1fr; } }
+  .nosotros__texto { display: grid; gap: var(--e-3); }
+  .nosotros__texto > p { color: var(--tinta-2); max-width: 52ch; }
+  .nosotros__texto > .nosotros__resumen { font-size: var(--paso-1); line-height: 1.45; color: var(--tinta); }
+  .nosotros__mision { margin: var(--e-2) 0 0; padding: var(--e-3); background: var(--etiqueta); border: 2px solid var(--noche); border-radius: var(--radio); box-shadow: var(--sombra-etiqueta); rotate: -1deg; max-width: 30rem; }
+  .nosotros__mision span { text-transform: uppercase; color: var(--tinta-2); }
+  .nosotros__mision p { font-weight: 650; margin-top: var(--e-1); }
+  .valores { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--e-3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+  .valor { background: var(--superficie); padding: var(--e-3); border-radius: var(--radio); border-top: 5px solid var(--cian); box-shadow: var(--sombra-foto); }
+  .valor__num { color: var(--azul); }
+  .valor__nombre { font-size: var(--paso-2); color: var(--indigo); margin: var(--e-1) 0; }
+  .valor p { color: var(--tinta-2); }
 
   /* Cotizar */
   .cotizar { display: grid; gap: var(--e-5); }
@@ -447,6 +503,10 @@ const flecha = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="tru
   .pie__rejilla { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--e-5); }
   .pie__logo { width: 220px; margin-bottom: var(--e-2); }
   .pie__datos { font-style: normal; line-height: 2; }
+  .pie__lema { max-width: 30ch; margin-top: var(--e-2); color: rgb(255 255 255 / 0.8); }
+  .pie__titulo { text-transform: uppercase; color: rgb(255 255 255 / 0.6); }
+  .pie__enlaces { list-style: none; margin: var(--e-1) 0 0; padding: 0; line-height: 2; }
+  .pie__legal { margin-top: var(--e-8); padding-top: var(--e-3); border-top: 1px solid rgb(255 255 255 / 0.15); color: rgb(255 255 255 / 0.6); }
   .pie a { color: var(--cielo-claro); }
 
   /* Botón flotante de WhatsApp: verde de WhatsApp para que se reconozca al instante */

@@ -1,5 +1,5 @@
-// Única fuente de los datos del negocio. ⚠️ Teléfono y dirección pendientes de confirmar
-// con el cliente (en internet aparecen 313 688 3532 / 317 848 1385 y #84-18 / #84-44).
+// Única fuente de los datos del negocio. Teléfono, dirección y WhatsApp tomados de refriconfortcool.com
+// (página de contacto y widget de chat, nov. 2026). ⚠️ Confirmar con el cliente en la reunión.
 export const empresa = {
   nombre: 'Refriconfort Cool',
   razonSocial: 'Refriconfort Cool S.A.S.',
@@ -7,12 +7,26 @@ export const empresa = {
   sitio: 'https://refriconfortcool.com',
   telefono: '313 688 3532',
   telefonoE164: '+573136883532',
-  whatsapp: '573136883532',
+  whatsapp: '573178481385',
+  whatsappTexto: '317 848 1385',
   correo: 'refriconfortcool@hotmail.com',
   direccion: 'Carrera 7C #84-18',
   ciudad: 'Cali',
   departamento: 'Valle del Cauca',
   mantenimientoDias: 60,
+} as const;
+
+// Textos de "Quiénes somos" de su sitio actual, resumidos.
+export const nosotros = {
+  resumen: 'Desde el comienzo nos especializamos en el suministro, la instalación y el mantenimiento de aire acondicionado, refrigeración y ductería. Damos una solución completa: asesoría, montaje, soporte técnico y servicio posventa.',
+  equipo: 'Nuestro personal se capacita de forma permanente para estar al día con las nuevas tecnologías del sector, y trabajamos con un manual de garantía de calidad y procedimientos.',
+  mision: 'Ofrecer la mejor alternativa de solución a cada proyecto que nos confían, con un excelente servicio y precios competitivos.',
+  valores: [
+    { nombre: 'Responsabilidad', texto: 'Respondemos por nuestras palabras, decisiones y compromisos.' },
+    { nombre: 'Puntualidad', texto: 'Cumplimos a tiempo lo que acordamos.' },
+    { nombre: 'Respeto', texto: 'Reconocemos los derechos y la dignidad de cada persona y empresa.' },
+    { nombre: 'Compromiso', texto: 'Pasamos de las promesas a los hechos.' },
+  ],
 } as const;
 
 // `img`: nombre del archivo en src/assets/img/ (fotos tomadas del sitio actual del cliente).
